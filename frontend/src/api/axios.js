@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+// In local dev, leave VITE_API_URL unset — Vite's dev server proxies /api,
+// /uploads, and /socket.io straight to localhost:5000 (see vite.config.js).
+// In production (frontend on Vercel, backend on Render/Railway/etc.), set
+// VITE_API_URL to the deployed backend's full origin, e.g.
+// https://your-backend.onrender.com
+export const API_ORIGIN = import.meta.env.VITE_API_URL || '';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${API_ORIGIN}/api`,
 });
 
 api.interceptors.request.use((config) => {
@@ -21,5 +28,9 @@ api.interceptors.response.use(
     return Promise.reject(err);
   }
 );
+
+// Resolves a backend-relative path (e.g. a course thumbnail like
+// "/uploads/thumbnails/x.png") to a full URL in production.
+export const assetUrl = (path) => (path ? `${API_ORIGIN}${path}` : path);
 
 export default api;

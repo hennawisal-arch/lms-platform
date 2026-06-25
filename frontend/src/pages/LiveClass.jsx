@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
+import { API_ORIGIN } from '../api/axios';
 
 const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
@@ -58,7 +59,7 @@ export default function LiveClass() {
     }
 
     const token = localStorage.getItem('lms_token');
-    const socket = io('/', { auth: { token }, path: '/socket.io' });
+    const socket = io(API_ORIGIN || '/', { auth: { token }, path: '/socket.io' });
     socketRef.current = socket;
 
     socket.on('connect_error', (err) => setError(`Connection failed: ${err.message}`));

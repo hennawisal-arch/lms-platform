@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { API_ORIGIN } from '../api/axios';
 
 export default function VideoPlayer({ filename, onTimeUpdate, onEnded }) {
   const videoRef = useRef(null);
@@ -13,7 +14,7 @@ export default function VideoPlayer({ filename, onTimeUpdate, onEnded }) {
   }
 
   const token = localStorage.getItem('lms_token');
-  const src = `/api/videos/stream/${filename}?token=${token}`;
+  const src = `${API_ORIGIN}/api/videos/stream/${filename}?token=${token}`;
 
   const handleTimeUpdate = (e) => {
     const current = Math.floor(e.target.currentTime);

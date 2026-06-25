@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { assetUrl } from '../api/axios';
 
 export default function CourseCard({ course, footer }) {
   return (
     <div className="card overflow-hidden flex flex-col hover:border-accent-500/50 transition-colors">
       <div className="h-36 bg-ink-800 flex items-center justify-center overflow-hidden">
         {course.thumbnail ? (
-          <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover" />
+          <img src={assetUrl(course.thumbnail)} alt={course.title} className="w-full h-full object-cover" />
         ) : (
           <span className="text-4xl font-display font-bold text-ink-600">{course.title?.[0] || 'C'}</span>
         )}
